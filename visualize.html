@@ -173,7 +173,7 @@ useD3: true
 		rank: function() {
 			var xWeight = $('#xWeight').val();
 			var yWeight = $('#yWeight').val();
-			var count = $('#count').val();
+			var count = Math.min($('#count').val(), this.data.length);
 
 			// Lets make the range of x and y "roughly" the same
 			for (var i = 0; i < this.data.length; i++) {
