@@ -16,3 +16,5 @@ github_username: promise-zones
 
 # Build settings
 markdown: kramdown
+gems:
+  - jekyll-mentions
