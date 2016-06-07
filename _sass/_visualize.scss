@@ -1,0 +1,54 @@
+/**
+ * Visualization CSS
+ */
+#svg-container, #candidates {
+	font-family: Arial, sans-serif;
+}
+
+#graph {
+	width: 960px;
+	height: 500px;
+}
+
+g {
+	stroke-width: 1;
+}
+
+.pz {
+	fill: "red";
+	fill-opacity: 0.5;
+	color: red;
+}
+
+.pz-hidden .pz {
+	display: none;
+}
+
+.not-pz {
+	fill-opacity: 0.1;
+}
+
+.tooltip {
+	position: absolute;
+	text-align: center;
+	width: 220px;
+	height: 28px;
+	padding: 2px;
+	font: 12px sans-serif;
+	border: 0px;
+	border-radius: 8px;
+	pointer-events: none;
+}
+
+.xaxis path, .yaxis path {
+	fill: none;
+	stroke: #000;
+}
+
+.x-axis-label, .y-axis-label {
+	text-anchor: middle;
+}
+
+.border-margin {
+	opacity: .8;
+}

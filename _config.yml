@@ -1,0 +1,18 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: Promise Zones
+description: > # this means to ignore newlines until "baseurl:"
+  Our goal is to help visualize how the promise zones stand in comparison with other areas of the US,
+  and to help identify other areas that may be good candidates for future promise zones.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://promise-zones.githubpages.com" # the base hostname & protocol for your site
+github_username: promise-zones
+
+# Build settings
+markdown: kramdown
