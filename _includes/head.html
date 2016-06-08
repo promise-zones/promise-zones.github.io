@@ -28,5 +28,7 @@
   <script src="{{ "/js/colorbrewer.js" | prepend: site.baseurl }}"></script>
   {% endif %}
 
-
+  {% if page.pageJs %}
+  <script src="{{ site.baseurl }}/js/{{ page.pageJs }}.js"></script>
+  {% endif %}
 </head>
