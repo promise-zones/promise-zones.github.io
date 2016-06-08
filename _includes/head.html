@@ -23,9 +23,9 @@
   {% if page.useGoogleFonts %}
   <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   {% endif %}
-  
+
   {% if page.useColorBrewer %}
-  <script src="https://raw.githubusercontent.com/promise-zones/promise-zones/master/colorbrewer.js"></script>
+  <script src="{{ "/js/colorbrewer.js" | prepend: site.baseurl }}"></script>
   {% endif %}
 
 

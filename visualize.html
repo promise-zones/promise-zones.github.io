@@ -26,6 +26,7 @@ useD3: true
 		counties
 	<ol></ol>
 </div>
+
 <script>
 	var opts = {
 			margin : { top: 10, right: 10, bottom: 50, left: 70, lefttext: 5 }
@@ -194,10 +195,10 @@ useD3: true
 			// now list out the top 50 or so
 			for (var i = 0; i < count; i++) {
 				var d = this.data[i];
-				// todo: figure out way to link up to chart - maybe trigger tooltip or something
+				// @todo: figure out way to link up to chart - maybe trigger tooltip or something
 				// OR Give this it's own tab or something
 				//
-				// TODO: Maybe figure out way to color these on the chart dynamically (so when weights change, it
+				// @todo: Maybe figure out way to color these on the chart dynamically (so when weights change, it
 				// updates)
 				var liClass = d.pz ? 'pz' : 'not-pz';
 				$('#candidates ol').append($('<li class="' + liClass + '">'+ d.area_name + '<br>Unemployment: ' + d3.format(".1%")(d.ue_rate) +
