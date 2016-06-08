@@ -10,9 +10,23 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
   {% if page.useD3 %}
   <script src="http://d3js.org/d3.v3.min.js"></script>
-  <script src="http://d3js.org/topojson.v1.min.js"></script>
   {% endif %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+  {% if page.useTopoJSON %}
+  <script src="//d3js.org/topojson.v1.min.js"></script>
+  {% endif %}
+
+  {% if page.useGoogleFonts %}
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  {% endif %}
+  
+  {% if page.useColorBrewer %}
+  <script src="https://raw.githubusercontent.com/promise-zones/promise-zones/master/colorbrewer.js"></script>
+  {% endif %}
+
+
 </head>
