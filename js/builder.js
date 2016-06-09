@@ -4,6 +4,7 @@ function createObjFromURI() {
    	var chunks = uri.split('&');
    	var params = Object();
    	var param_name = ""
+   	console.log("Running createObjFromURI " + chunks.length);
     for (var i=0; i < chunks.length ; i++) {
    	    var chunk = chunks[i].split('=');
        	if(chunk[0].search("\\[\\]") !== -1) {
@@ -21,11 +22,12 @@ function createObjFromURI() {
 }
 
 function getCountiesFromURI() {
+	console.log("Running getCountiesFromURI");
 	var uriObj = createObjFromURI();
 	var county_indices = [];
 	if ('c' in uriObj) {
-		for (var i = 0; i < uriObj.t.length; i++) {
-			counties.push(+uriObj.c[i]);
+		for (var i = 0; i < uriObj.c.length; i++) {
+			county_indices.push(+uriObj.c[i]);
 		}
 	}
 	console.log("Counties " + county_indices);
@@ -33,6 +35,7 @@ function getCountiesFromURI() {
 }
 
 function getTranslateFromURI() {
+	console.log("Running getTranslateFromURI");
 	var uriObj = createObjFromURI();
 	var translate = [0, 0];
 	if ('t' in uriObj) {
@@ -44,8 +47,9 @@ function getTranslateFromURI() {
 	return translate;
 }
 function getScaleFromURI() {
+	console.log("Running getScaleFromURI");
 	var uriObj = createObjFromURI();
-	var scale = 0;
+	var scale = 1;
 	if ('s' in uriObj) {
 		scale = +uriObj.s;
 	}
@@ -151,7 +155,7 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 
 	function parameterURLAdd(param_val, param_code) {
 		var string_to_add = param_code + "[]=" + param_val;
-		if (location.hash.indexOf(string_to_add) <= -1) {
+		if (location.hash.indexOf(string_to_add) <= -1 || param_code == "t") {
 			location.hash = location.hash + (location.hash.length == 0 ? "" : "&") + string_to_add;
 		}
 	}
@@ -164,6 +168,20 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 			location.hash = location.hash.replace("/" + string_to_remove.substring(1) + "/g", "");
 		}
 	}
+	function removeURLParameterAndValue(param_val, param_code) {
+		var uri = decodeURI(location.hash.substr(1));
+   		var chunks = uri.split('&');
+   		var chunk_index;
+   		var new_chunks = [];
+   		for (chunk_index in chunks) {
+   			if (!(chunks[chunk_index][0] == param_code &&
+   				chunks[chunk_index].split("=")[1] == param_val)) {
+   				new_chunks.push(chunks[chunk_index]);
+   			}
+   		}
+   		location.hash = new_chunks.join("&");
+	}
+
 	function removeURLParameterType(param_code) {
 		var uri = decodeURI(location.hash.substr(1));
    		var chunks = uri.split('&');
@@ -231,7 +249,7 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 				console.log("It is already selected, so deselect it");
 				current_county.classed("selected-county", false);
 				current_county.classed("ineligible-county", false);
-				parameterURLRemove(i, "c");
+				removeURLParameterAndValue(i, "c");
 				classify_neighbors_on_deselect(i);
 			}
 
@@ -338,12 +356,14 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 	function zoomed() {
 		features.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
 		features.select(".county").style("stroke-width", .5 / zoom.scale() + "px");
+		console.log(zoom.translate(), zoom.scale());
+		resetURLTranslateAndScale(zoom.translate(), zoom.scale());
 	}
 
 	function interpolateZoom (translate, scale) {
 
 		var self = this;
-		resetURLTranslateAndScale(translate, scale);
+
 		return d3.transition().duration(350).tween("zoom", function () {
 			var iTranslate = d3.interpolate(zoom.translate(), translate),
 				iScale = d3.interpolate(zoom.scale(), scale);
@@ -508,6 +528,18 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 		return table;
 	}
 
+	function selectCountiesFromURI() {
+		var county_indices = getCountiesFromURI();
+		var i;
+		var fips_code;
+		for (i in county_indices) {
+			fips_code = counties[county_indices[i]].properties.fips;
+			$("#FIPS" + fips_code + ".county").d3Click();
+			console.log("i = " + i + " fips " + fips_code);
+		}
+	}
+
 	zoomed();
+	selectCountiesFromURI();
 
 });
