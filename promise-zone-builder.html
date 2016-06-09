@@ -3,7 +3,7 @@ layout: default
 title: Promise Zone Builder
 useD3: true
 useTopoJSON: true
-useGoogleFonts: true
+useGoogleFonts: false
 useColorBrewer: true
 pageJs: builder
 ---
@@ -50,9 +50,21 @@ pageJs: builder
 </div> <!-- container -->
 <div style="clear:both;"></div>
 <div id="content">
-<p>Start to build a Promise Zone by selecting any one county on the map. From there, you will be able to select geographically contiguous counties. Click the Neediest Neighbor button to select the neighboring county with the highest rate of poverty.</p>
+<h2>Build Your Own</h2>
+<p>Start building a Promise Zone by selecting any one county on the map. From there, you will be able to select geographically contiguous counties. Click the Neediest Neighbor button to select the neighboring county with the highest rate of poverty.</p>
 <p>The dark blue counties on the map are areas where poverty rates are high.</p>
 <p>The red counties are those that you have selected to be part of your Promise Zone. The summarized and detailed statistics for all of the Promise Zone counties are shown on the left. The enabled counties surrounding the Promise Zone are those that are eligible to be added.</p>
-
-
+<h2>Data Sources</h2>
+<ul>
+<li><a href="https://brigades.opendatanetwork.com/resource/7m6b-dxmh.json">Promise Zone data set</a>
+<li><a href="http://data.bls.gov/map/MapToolServlet?survey=la">Local Area Unemployment Rates</a> from the U.S. Bureau of Labor Statistics</li>
+<li><a href="https://odn.data.socrata.com/dataset/US-Occupations/t8be-b2rm">Occupational and Census Data</a> from the Census 2013 American Community Survey (via Socrata)</li>
+<li><a href="https://stuagano.cartodb.com/viz/423d15d0-2a8d-11e6-8898-0e5db1731f59/public_map">Geographical data</a> CartoDB</li>
+</ul>
+<p>We wrangled all this data into one GeoJSON file and converted that into <a href="https://github.com/mbostock/topojson/wiki/Command-Line-Reference">TopoJSON</a>, which is what this page reads in.</p>
+<h2>Attributions</h2>
+<ul>
+<li>This page leverages all kinds of help from Mike Bostock, the Godfather of D3.js, who has code samples for everything. For example: <a href="http://bl.ocks.org/mbostock/2374239">Zoomable Geography</a>, <a href="https://bl.ocks.org/mbostock/eec4a6cda2f573574a11">Map & Pan</a>, and <a href="https://bl.ocks.org/mbostock/1345853">Transform Transitions</a>.</li>
+<li>Other sources: <a href="http://bl.ocks.org/linssen/7352810">Smooth Zooming</a>, <a href="http://stackoverflow.com/questions/9063383/how-to-invoke-click-event-programmatically-in-d3">Invoke click event programmatically in D3.js</a>, <a href="http://stackoverflow.com/questions/8648892/convert-url-parameters-to-a-javascript-object">Convert URL parameters to JS script object</a></li>
+</ul>
 </div>
