@@ -1,3 +1,69 @@
+// Creates an object from URL encoded data
+function createObjFromURI() {
+   	var uri = decodeURI(location.hash.substr(1));
+   	var chunks = uri.split('&');
+   	var params = Object();
+   	var param_name = ""
+    for (var i=0; i < chunks.length ; i++) {
+   	    var chunk = chunks[i].split('=');
+       	if(chunk[0].search("\\[\\]") !== -1) {
+       		param_name = chunk[0].split('[]')[0]
+           	if( typeof params[param_name] === 'undefined' ) {
+               	params[param_name] = [chunk[1]];
+            } else {
+           	params[param_name].push(chunk[1]);
+        	}
+        } else {
+   	        params[chunk[0]] = chunk[1];
+       	}
+    }
+   	return params;
+}
+
+function getCountiesFromURI() {
+	var uriObj = createObjFromURI();
+	var county_indices = [];
+	if ('c' in uriObj) {
+		for (var i = 0; i < uriObj.t.length; i++) {
+			counties.push(+uriObj.c[i]);
+		}
+	}
+	console.log("Counties " + county_indices);
+	return county_indices;
+}
+
+function getTranslateFromURI() {
+	var uriObj = createObjFromURI();
+	var translate = [0, 0];
+	if ('t' in uriObj) {
+		if (uriObj.t.length == 2) {
+			translate = [+uriObj.t[0], +uriObj.t[1]]
+		}
+	}
+	console.log("Translate " + translate);
+	return translate;
+}
+function getScaleFromURI() {
+	var uriObj = createObjFromURI();
+	var scale = 0;
+	if ('s' in uriObj) {
+		scale = +uriObj.s;
+	}
+	console.log("Scale " + scale);
+	return scale;
+}
+
+
+
+
+window.onload = function() {
+	console.log("Page loaded");
+}
+window.onhashchange = function() {
+	console.log("Hash Changed");
+};
+
+
 var width = 700,
 	height = 500 * (width/960);
 	scale0 = (width - 1) / 2 / Math.PI;
@@ -12,12 +78,21 @@ var projection = d3.geo.albersUsa()
 d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/master_geo_with_properties_topo.json", function(error, topology) {
 	if (error) throw error;
 	//var color = d3.scale.category10();
+
 	var neighbors = topojson.neighbors(
 					topology.objects.master_geo_fixed_geo.geometries);
 	var counties = topojson.feature(
 						topology,
 						topology.objects.master_geo_fixed_geo)
 					.features;
+
+	var urlParams = createObjFromURI();
+
+	function interpretURL(paramsOBJ) {
+		//placeholder
+		return paramsOBJ;
+	}
+	interpretURL(urlParams);
 
 	var countyLookup = {};
 	for (var i = 0, len = counties.length; i < len; i++) {
@@ -39,8 +114,8 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 			: [loColor, meanColor, hiColor]);
 
 	var zoom = d3.behavior.zoom()
-		.translate([0, 0])
-		.scale(1)
+		.translate(getTranslateFromURI())
+		.scale(getScaleFromURI())
 		.scaleExtent([0.5, 8])
 		.on("zoom", zoomed);
 
@@ -73,12 +148,58 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 				}
 			})
 			.on("click", click);
-	//debugger;
+
+	function parameterURLAdd(param_val, param_code) {
+		var string_to_add = param_code + "[]=" + param_val;
+		if (location.hash.indexOf(string_to_add) <= -1) {
+			location.hash = location.hash + (location.hash.length == 0 ? "" : "&") + string_to_add;
+		}
+	}
+	function parameterURLRemove(param_val, param_code) {
+		var string_to_remove = "&" + param_code + "[]=" + param_val;
+		console.log("Removing " + string_to_remove);
+		if (location.hash.indexOf(string_to_remove) > -1) {
+			location.hash = location.hash.replace("/" + string_to_remove + "/g", "");
+		} else if (location.hash.indexOf(string_to_remove.substring(1)) > -1) {
+			location.hash = location.hash.replace("/" + string_to_remove.substring(1) + "/g", "");
+		}
+	}
+	function removeURLParameterType(param_code) {
+		var uri = decodeURI(location.hash.substr(1));
+   		var chunks = uri.split('&');
+   		var chunk_index;
+   		var new_chunks = [];
+   		for (chunk_index in chunks) {
+   			if (chunks[chunk_index][0] != param_code) {
+   				new_chunks.push(chunks[chunk_index]);
+   			}
+   		}
+   		location.hash = new_chunks.join("&");
+//		var objURI = createObjFromURI();
+//		var list_index;
+//		if (param_code in objURI) {
+//			if ( typeof objURI[param_code] === 'undefined' ) {
+//				for (list_index in objURI[param_code]) {
+//					parameterURLRemove(objURI[param_code][list_index], param_code);
+//				}
+//			} else {
+//				parameterURLRemove(objURI[param_code], param_code);
+//			}
+//		}
+	}
+	function resetURLTranslateAndScale( translate, scale ) {
+		removeURLParameterType("t");
+		removeURLParameterType("s");
+		parameterURLAdd(translate[0], "t");
+		parameterURLAdd(translate[1], "t");
+		parameterURLAdd(scale, "s");
+	}
 
 	function click(d, i) {
 
 		var allowClick = false;
 		var	current_county = d3.select(this);
+
 		var	atLeastOneSelected = d3.select("g#countymap")
 				.classed("atleastoneselected");
 
@@ -101,6 +222,7 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 			if (!current_county.classed("selected-county")) {
 				console.log("It is not selected yet");
 				current_county.classed("selected-county", true);
+				parameterURLAdd(i, "c");
 				classify_neighbors_on_select(this.id.slice(4));
 
 			// If it is already selected, deselect it and then run logic to
@@ -109,6 +231,7 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 				console.log("It is already selected, so deselect it");
 				current_county.classed("selected-county", false);
 				current_county.classed("ineligible-county", false);
+				parameterURLRemove(i, "c");
 				classify_neighbors_on_deselect(i);
 			}
 
@@ -213,7 +336,6 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 	}
 
 	function zoomed() {
-		//features.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 		features.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
 		features.select(".county").style("stroke-width", .5 / zoom.scale() + "px");
 	}
@@ -221,6 +343,7 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 	function interpolateZoom (translate, scale) {
 
 		var self = this;
+		resetURLTranslateAndScale(translate, scale);
 		return d3.transition().duration(350).tween("zoom", function () {
 			var iTranslate = d3.interpolate(zoom.translate(), translate),
 				iScale = d3.interpolate(zoom.scale(), scale);
@@ -298,6 +421,7 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 
 	function resetMap() {
 		d3.selectAll('.county').classed('selected-county', false);
+		removeURLParameterType("c");
 		fill_pz_table();
 	}
 
@@ -383,5 +507,7 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 
 		return table;
 	}
+
+	zoomed();
 
 });
