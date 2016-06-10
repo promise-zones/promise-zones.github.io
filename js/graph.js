@@ -129,9 +129,6 @@ function draw(data) {
 		$('body').toggleClass('pz-hidden');
 	});
 
-	candidates.data = data;
-	candidates.rank();
-
 	function zoomed() {
 		vis.select(".xaxis").call(xAxis);
 		vis.select(".yaxis").call(yAxis);
@@ -139,41 +136,5 @@ function draw(data) {
 			.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	}
 }
-var candidates = {
-	data: [],
-	rank: function() {
-		var xWeight = $('#xWeight').val();
-		var yWeight = $('#yWeight').val();
-		var count = Math.min($('#count').val(), this.data.length);
 
-		// Lets make the range of x and y "roughly" the same
-		for (var i = 0; i < this.data.length; i++) {
-			var x = this.data[i].ue_rate * 100 * xWeight;
-			var y = this.data[i].pv_rate * 100 * yWeight;
-			if (usePythagoras) {
-				// a^2 + b^2 = h^2
-				this.data[i].delta = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-			} else {
-				// just add them
-				this.data[i].delta = x + y;
-			}
-		}
-		this.data.sort(function (a, b) {
-			return b.delta - a.delta;
-		});
-		$('#candidates ol').empty();
-		// now list out the top 50 or so
-		for (var i = 0; i < count; i++) {
-			var d = this.data[i];
-			// @todo: figure out way to link up to chart - maybe trigger tooltip or something
-			// OR Give this it's own tab or something
-			//
-			// @todo: Maybe figure out way to color these on the chart dynamically (so when weights change, it
-			// updates)
-			var liClass = d.pz ? 'pz' : 'not-pz';
-			$('#candidates ol').append($('<li class="' + liClass + '">'+ d.area_name + '<br>Unemployment: ' + d3.format(".1%")(d.ue_rate) +
-				' Poverty: ' + d3.format(".1%")(d.pv_rate) + '</li>'));
-		}
-	},
-};
 d3.json('https://raw.githubusercontent.com/promise-zones/promise-zones/master/areas.json', draw);
