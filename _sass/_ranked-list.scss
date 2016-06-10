@@ -1,0 +1,40 @@
+/**
+ * Ranked list SCSS
+ */
+#candidates {
+	font-family: Arial, sans-serif;
+
+	#settings {
+		display: inline-block;
+		border-radius: 10px;
+		border-color: #008cba
+	}
+
+	.pz {
+		color: red;
+	}
+
+	ol {
+		display: inline-block;
+		border-top: 2em;
+
+		li {
+			border-left: 1px solid $grey-color;
+			margin: 10px;
+			padding: 7px;
+			border-radius: 8px 8px 0;
+			border-bottom: 2px solid $grey-color;
+
+			.stats {
+				float: right;
+				text-align: right;
+			}
+
+			a {
+				@extend button;
+			}
+
+			@extend %clearfix;
+		}
+	}
+}
