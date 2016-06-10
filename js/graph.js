@@ -8,6 +8,11 @@ var opts = {
 	usePythagoras = true;
 
 function draw(data) {
+	var params = createObjFromURI();
+
+	// Which one should be green
+	var greenDot = params.fips_id ? params.fips_id : null;
+
 	d3.selection.prototype.moveToFront = function() {
 		return this.each(function(){
 			this.parentNode.appendChild(this);
@@ -51,13 +56,22 @@ function draw(data) {
 		.insert("circle")
 		.attr("cx", function(d) { return xRange (d.ue_rate); })
 		.attr("cy", function(d) { return yRange (d.pv_rate); })
-		.attr("r", function(d) { if (d.pz) { return 6; } else { return 4; } })
+		.attr("r", function(d) {
+			if (d.fips_id == greenDot) {
+				return 10;
+			}
+			return d.pz ? 6 : 4;
+		})
 		.classed('pz', function(d) { return d.pz; })
 		.classed('not-pz', function(d) { return !d.pz; })
+		.classed('green', function(d) { return d.fips_id == greenDot; })
 		.style("fill", function(d) {
 			if (d.pz) {
 				return "red";
 			} else {
+				if (greenDot == d.fips_id) {
+					return "green";
+				}
 				return "blue";
 			}
 		})
@@ -68,7 +82,16 @@ function draw(data) {
 			div	.html(d.area_name + "<br/>Unemployment: "  + d3.format(".1%")(d.ue_rate) + " Poverty: " + d3.format(".1%")(d.pv_rate))
 				.style("left", (d3.event.pageX) + "px")
 				.style("top", (d3.event.pageY - 28) + "px")
-				.style("background", function() { if (d.pz) { return "pink"; } else { return "lightsteelblue"; } });
+				.style("background", function() {
+					if (d.pz) {
+						return "pink";
+					} else {
+						if (d.fips_id == greenDot) {
+							return 'lightgreen';
+						}
+						return "lightsteelblue";
+					}
+				});
 		})
 		.on("mouseout", function(d) {
 			div.transition()
