@@ -5,8 +5,8 @@ pageJs: rank
 ---
 <div id="candidates">
 	<h1>Potential Candidates for Future Promise Zones</h1>
-	<p>Locations are ranked according to how "far" from 0% 0% they are in comparison with others.</p>
-	<p>Using the options, you can change the "weight" of poverty rate or unemployment rate. The weight is what determines how "important" one stat is over the other.  The default is weight of 2 for unemployement, 1 for poverty rate, meaning 2% unemployment is considered equal to 1% of poverty rate.  You can also change how long the list is, and whether existing promise zones are included (in red) in the list or not.</p>
+	<p>Locations are ranked according to how "far" from 0% 0% they are in comparison with others.  Meaning, if you draw a straight line from 0, 0 on the <a href="{{ baseurl }}/visualize.html">comparison graph</a> to where that location falls on the graph, the longer that line is the higher rank (higher in the list below) it will be.  So #1 is the location furthest from 0,0 on the graph.  Now this is modified a little because typical unemployment is around 4.3% while typical poverty rate is around 13%, so we added "weights" explained below that act to "stretch out" one axis or the other.</p>
+	<p>Using the options, you can change this weight of poverty rate or unemployment rate. The weight is what determines how "important" one stat is over the other, the weight is used as a multiplier.  The default is weight of 2 for unemployment, 1 for poverty rate, meaning 1% unemployment is worth 2 and 1% of poverty rate is worth 1.  Those default weight multipliers can be changed by clicking on options below.  You can also change how long the list is, and whether existing promise zones are included (in red) in the list or not.</p>
 	<br>
 	<button id="settingsToggle" onclick="candidates.toggleSettings(); return false;">Options</button>
 	<fieldset id="settings" style="display: none;">
