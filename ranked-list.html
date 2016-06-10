@@ -1,0 +1,35 @@
+---
+layout: default
+title: Ranked List
+pageJs: rank
+---
+<div id="candidates">
+	<h1>Potential Candidates for Future Promise Zones</h1>
+	<p>Locations are ranked according to how "far" from 0% 0% they are in comparison with others.</p>
+	<p>Using the options, you can change the "weight" of poverty rate or unemployment rate. The weight is what determines how "important" one stat is over the other.  The default is weight of 2 for unemployement, 1 for poverty rate, meaning 2% unemployment is considered equal to 1% of poverty rate.  You can also change how long the list is, and whether existing promise zones are included (in red) in the list or not.</p>
+	<br>
+	<button id="settingsToggle" onclick="candidates.toggleSettings(); return false;">Options</button>
+	<fieldset id="settings" style="display: none;">
+		<legend onclick="candidates.toggleSettings();">Ranking Options</legend>
+		<label>
+			<input type="checkbox" id="showPromise" onchange="candidates.rank()"> Show Existing Promise Zones
+		</label>
+		<br>
+		<labal>
+			<input type="number" min="0" max="100" value="2" id="xWeight" onchange="candidates.rank()">
+			Unemployment Weight
+		</labal>
+		<br>
+		<label>
+			<input type="number" min="0" max="100" value="1" id="yWeight" onchange="candidates.rank()">
+			Poverty Rate Weight<!-- Say that 5 times fast! -->
+		</label>
+		<br>
+		<label>
+			Show top <input type="number" min="1" max="10000" value="100" id="count" onchange="candidates.rank()">
+			counties
+		</label>
+	</fieldset>
+	<br>
+	<ol></ol>
+</div>
