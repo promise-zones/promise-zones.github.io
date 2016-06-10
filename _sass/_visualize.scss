@@ -19,12 +19,17 @@ g {
 	fill-opacity: 0.5;
 }
 
-.pz-hidden .pz {
-	display: none;
-}
-
 .not-pz {
 	fill-opacity: 0.1;
+}
+
+.green {
+	fill: "green";
+	fill-opacity: 0.3;
+}
+
+.pz-hidden .pz {
+	display: none;
 }
 
 .tooltip {
