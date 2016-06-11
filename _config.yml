@@ -11,7 +11,7 @@ description: > # this means to ignore newlines until "baseurl:"
   Our goal is to help visualize how the promise zones stand in comparison with other areas of the US,
   and to help identify other areas that may be good candidates for future promise zones.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://promise-zones.githubpages.com" # the base hostname & protocol for your site
+url: "https://promise-zones.githubpages.com" # the base hostname & protocol for your site
 github_username: promise-zones
 googleAnalyticsKey: "UA-79018683-1"
 
