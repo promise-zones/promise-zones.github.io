@@ -61,10 +61,9 @@ var candidates = {
 					// set it first time in loop
 					visLink = entry.find('.vis-link').attr('href');
 					buildLink = entry.find('.build-link').attr('href');
-					console.log('visLink', visLink);
 				}
 				entry.find('.vis-link').prop('href', visLink + d.fips_id);
-				// TODO: update build link
+				entry.find('.build-link').prop('href', buildLink + 'c[]=' + d.fips_id);
 			} else {
 				// Cannot link if do not have fips_id so hide links
 				entry.find('.links').hide();
