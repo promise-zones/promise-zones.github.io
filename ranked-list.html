@@ -16,15 +16,15 @@ pageJs: rank
 			<input type="checkbox" id="showPromise" onchange="candidates.rank()"> Show Existing Promise Zones
 		</label>
 		<br>
-		<labal>
-			<input type="number" min="0" max="100" value="2" id="xWeight" onchange="candidates.rank()">
-			Unemployment Weight
-		</labal>
-		<br>
 		<label>
 			<input type="number" min="0" max="100" value="1" id="yWeight" onchange="candidates.rank()">
 			Poverty Rate Weight<!-- Say that 5 times fast! -->
 		</label>
+		<br>
+		<labal>
+			<input type="number" min="0" max="100" value="2" id="xWeight" onchange="candidates.rank()">
+			Unemployment Weight
+		</labal>
 		<br>
 		<label>
 			Show top <input type="number" min="1" max="10000" value="100" id="count" onchange="candidates.rank()">
@@ -37,8 +37,8 @@ pageJs: rank
 	</ol>
 	<div id="empty" style="display: none;">
 		<span class="stats">
-			Unemployment: <span class="ue-rate"></span><br>
 			Poverty: <span class="pv-rate"></span><br>
+			Unemployment: <span class="ue-rate"></span><br>
 			Population: <span class="pop"></span>
 		</span>
 		<span class="area-name"></span>

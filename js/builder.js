@@ -4,7 +4,7 @@ function getCountiesFromURI() {
 	var county_indices = [];
 	if ('c' in uriObj) {
 		for (var i = 0; i < uriObj.c.length; i++) {
-			county_indices.push(+uriObj.c[i]);
+			county_indices.push(uriObj.c[i]);
 		}
 	}
 	console.log("Counties " + county_indices);
@@ -510,7 +510,15 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 		var i;
 		var fips_code;
 		for (i in county_indices) {
-			fips_code = counties[county_indices[i]].properties.fips;
+			// If indices is > 10000 then it isn't an indice, it's an actual fips code
+			if (county_indices[i].length > 4) {
+				// Is a FIPS code
+				fips_code = '0500000US' + county_indices[i];
+			} else {
+				// Is an index
+				fips_code = counties[+county_indices[i]].properties.fips
+			}
+
 			$("#FIPS" + fips_code + ".county").d3Click();
 			console.log("i = " + i + " fips " + fips_code);
 		}
