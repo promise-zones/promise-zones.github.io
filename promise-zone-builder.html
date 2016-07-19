@@ -9,23 +9,21 @@ pageJs: builder
 ---
 
 <div id="container">
-	<div id="right-column">
-		<div id="buttons">
-			<button id="zoom_in" class="zoom">+</button>
-			<button id="zoom_out" class="zoom">-</button>
-			<button id="pan_left" class="pan">&larr;</button>
-			<button id="pan_up" class="pan">&uarr;</button>
-			<button id="pan_down" class="pan">&darr;</button>
-			<button id="pan_right" class="pan">&rarr;</button>
-			<button id="neediest-neighbor" disabled="disabled">Neediest Neighbor</button>
-			<button id="reset">Reset</button>
-		</div>
-		<div id="svg-map-container"><svg id="map"></svg></div>
-	</div> <!-- left-column -->
+	<div id="buttons">
+		<button id="zoom_in" class="zoom">+</button>
+		<button id="zoom_out" class="zoom">-</button>
+		<button id="pan_left" class="pan">&larr;</button>
+		<button id="pan_up" class="pan">&uarr;</button>
+		<button id="pan_down" class="pan">&darr;</button>
+		<button id="pan_right" class="pan">&rarr;</button>
+		<button id="neediest-neighbor" disabled="disabled">Neediest Neighbor</button>
+		<button id="reset">Reset</button>
+	</div> <!-- buttons -->
+	<div id="svg-map-container"><svg id="map"></svg></div>
 	<div id="left-column">
 		<div id="pz-info">
 			<h2>Promise Zone Builder</h2>
-			<table id="pz-table">
+			<table id="pz-table" class="hidden">
 				<tr>
 					<td>Counties</td>
 					<td id="totalcounties">0</td>
@@ -44,7 +42,7 @@ pageJs: builder
 				</tr>
 			</table>
 		</div> <!-- pz-info -->
-		<div id="pz-detail">
+		<div id="pz-detail" class="hidden">
 		</div> <!-- pz-detail -->
 	</div> <!-- right-column -->
 </div> <!-- container -->
