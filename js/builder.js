@@ -45,9 +45,15 @@ window.onhashchange = function() {
 };
 
 
-var width = 700,
-	height = 500 * (width/960);
+//var width = 700,
+//	height = 500 * (width/960);
+//	scale0 = (width - 1) / 2 / Math.PI;
+
+//var m_width = jQuery('body').width(),
+var	width = 960,
+	height = 500,
 	scale0 = (width - 1) / 2 / Math.PI;
+
 
 var projection = d3.geo.albersUsa()
 		.scale(width)
@@ -101,8 +107,12 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 		.on("zoom", zoomed);
 
 	var svg = d3.select("#map")
-		.attr('height', height)
-		.attr('width', width);
+		//.attr('height', height)
+		//.attr('width', width);
+		.attr("viewBox", "0 0 " + width + " " + height)
+		.attr("preserveAspectRatio", "xMidYMid");
+		//.attr("width", m_width)
+		//.attr("height", m_width * height / width);
 
 	svg.append("rect")
 		.attr("class", "overlay")
@@ -318,6 +328,8 @@ d3.json("https://raw.githubusercontent.com/promise-zones/promise-zones/master/ma
 		d3.select("#totaluer").text(d3.format(".1%")(totals.ue_rate));
 
 		d3.select("g#countymap").classed("atleastoneselected", totals.count > 0);
+		d3.select("#pz-table").classed("hidden", totals.count == 0);
+		d3.select("#pz-detail").classed("hidden", totals.count == 0);
 
 		var all_counties = d3.selectAll("path.county:not(.selected-county):not(.neighbor-county)");
 		all_counties.classed("ineligible-county", totals.count > 0);
